@@ -2,14 +2,19 @@
 A Javascript Date object for Mars timekeeping and Earth-Mars date/time conversion.
 
 ## Modifications
-
-* Added `Data.prototype.marsDate` to allow easy conversion between `Date` and `MarsDate` objects.
 * Added the placeholder `N` to get the ISO 8601 numeric representation of the day of the week
+* Translation friendly.
 
-## Installation
+## Todo
+* Add `Data.prototype.marsDate` to allow easy conversion between `Date` and `MarsDate` objects.
+* Finish .setTimezone() function.
+* Add minified version
+
+## ~~Installation
+Not yet added to npm registry.
 
 ```bash
-$ npm install --save marsdatejs
+~~$ npm install --save marsdatejs
 ```
 
 ## Usage
