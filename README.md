@@ -5,12 +5,12 @@ A Javascript Date object for Mars timekeeping and Earth-Mars date/time conversio
 * Finished off .setTimezone() function.
 * Implemented String input.
 * Added the placeholder `N` to get the ISO 8601 numeric representation of the sol of the week.
-* Translation friendly.
+* Now translation friendly.
+* Added minified version
 
 ## Todo
-* Add `Data.prototype.marsDate` to allow easy conversion between `Date` and `MarsDate` objects.
+* Add `Date.prototype.marsDate` to allow easy conversion between `Date` and `MarsDate` objects.
 * Finish documentation
-* Add minified version
 
 ## Usage
 
