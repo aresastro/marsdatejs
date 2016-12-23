@@ -23,22 +23,24 @@ The MarsDate object can be used in a similar fashion to the standard Javascript 
 
 ```js
 
-//As undefined which will assume the current date and time.
+//As undefined which will assume the current date and time in MTC.
 var now = new MarsDate();
 
-//With a standard Date object.
+//With a standard Date object which will convert from a date on Earth to a Mars date.
 var dateFromEarthDate = new MarsDate(new Date(1230812388499));
 
-//With a standard Mars Solar Date (MSD) from the Mars24 equations,
-var dateFromMSD = new MarsDate(172387.12398);
-//or by setting the 2nd parameter to 1, a Mars Telescopic Solar Date (MTSD) which implements the telescopic epoch as used in the Darian calendar.
-var dateFromMTSD = new MarsDate(172387.12398, 1);
+//With a Mars Solar Date MSD based upon the telescopic epoch of 1609.
+var dateFromMSD = new MarsDate("172387.12398");
 
-//With a standard Mars Solar Date expressed in milliseconds.
+//With Mars milliseconds elapsed since Unix epoch.
 var dateFromMillis = new MarsDate(1239182398766);
 
-//Or with a properly formatted Mars date (year*, month*, date*, hour, minute, second, millisecond) * = required.
+//With a properly formatted Mars date (year*, month*, date*, hour, minute, second, millisecond) * = required.
 var dateFromParams = new MarsDate(217, 3, 14, 12, 16, 18, 261);
+
+//Or with a properly formatted Mars date and time string
+var dateFromString = "Jov Sag 12 154";
+var dateTimeFromString = "Jov Sag 12 154 12:34:50";
 
 ```
 
