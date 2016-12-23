@@ -587,7 +587,6 @@ MarsDate.i18n = {
         offset: "+090946"
       }
     },
-    dateStringRegex: new RegExp(/\w{3}\s\w{3}\s\d*\s\d*/gi),
     toString: 'ddd mmm d yyy HH:MM:ss Z',
     toDateString: 'ddd mmm d yyy',
     toJSON: 'yyy-mm-ddXHH:MM:ss.lA|T',
