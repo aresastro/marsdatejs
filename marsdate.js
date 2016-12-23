@@ -17,20 +17,22 @@ class MarsDate {
   constructor() {
     var tzRegex = /[^-+\dA-Z]/g;
     var dateRegex = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZWN]|'[^']*'|'[^']*'/g;
-    var m = this.solveDate(inputType(arguments[0]), arguments);
+    var m = this.solveDate(inputType(arguments), arguments);
     this.millis = m.millis;
     this.json = m.dateObject;
     this.string = this.formatDate(MarsDate.i18n.toString);
     this.earthDate = m.earthDate;
     function inputType(i) {
-      var t = {}.toString.call(i).split(' ')[1].slice(0, -1).toLowerCase();
+      var t = {}.toString.call(i[0]).split(' ')[1].slice(0, -1).toLowerCase();
+      if(t=='string' && i[0].indexOf('.')>-1){
+        t='msd';
+      }
       if(t=='number'){
-        if(this.arguments.length>=3) {
+        if(i.length>=3) {
           t='marsdate';
-        } else if (this.arguments[0]%1!=0){
-          t='msd'
         }
       }
+      console.log(t);
       return t;
     }
   }
@@ -50,14 +52,14 @@ class MarsDate {
     return this.formatDate(MarsDate.i18n.toISOString);
   }
   toMTCString(){
-    var m = this.solveFromMSD(this.millis/86400000);
+    var m = this.solveFromMSD((this.millis + 11081343958887)/86400000);
     return this.formatDate(MarsDate.i18n.toMTCString);
   }
   setTimezone(a){
     this.json.Z = MarsDate.i18n.timezones[a];
     var p = (a[0]==="+") ? 1 : -1;
     var i = (a[1]*10 + 1*a[2])*3600000*p;
-    var mi = (i+(1*this.millis))/86400000;
+    var mi = (i+(1*this.millis + 11081343958887))/86400000;
     var m = this.getDateFromMSD(mi);
     this.json = m;
     this.json.Z = MarsDate.i18n.timezones[a];
@@ -77,13 +79,14 @@ class MarsDate {
         m = this.solveFromMSD(a[0]);
         break;
       case 'number':
-        m = this.solveFromMSD(a[0]/86400000);
+        m = this.solveFromMSD((11081343958887 + a[0])/86400000);
         break;
       case 'string':
         m = this.solveFromDateString(a[0]);
         break;
       case 'marsdate':
-        m = this.solveFromDate(m, a);
+        console.log(a);
+        m = this.solveFromDate(a);
         break;
     }
     return m;
@@ -95,7 +98,7 @@ class MarsDate {
     m.j2000 = this.getj2000FromEarthDate(m.earthDate);
     m.MSD = this.getMSDFromj2000(m.j2000);
     m.dateObject = this.getDateFromMSD(m.MSD);
-    m.millis = Math.floor(m.MSD*86400000);
+    m.millis = Math.floor(m.MSD*86400000 - 11081343958887);
     return m
   }
 
@@ -105,32 +108,48 @@ class MarsDate {
     m.j2000 = this.getj2000FromMSD(m.MSD);
     m.earthDate = this.getEarthDateFromj2000(m.j2000);
     m.dateObject = this.getDateFromMSD(m.MSD);
-    m.millis = Math.floor(m.MSD*86400000);
+    m.millis = Math.floor(m.MSD*86400000 - 11081343958887);
     return m;
   }
 
-  solveFromDateString(a){
-    var a = this.getArgumentsFromDateString(a);
-    var m = this.solveFromDate(a);
+  solveFromDateString(s){
+    var m = [];
+    var t = s.match(/\d{2}:\d{2}:\d{2}/i);
+    var d = s.match(/\w{3}\s\d{1,2}\s\d{1,4}/i);
+    if(!d){
+      return "Invalid date string";
+    } else {
+      d=d[0].split(" ");
+      m[0] = 1*d[2];
+      m[1] = MarsDate.i18n.mon.indexOf(d[0].trim()) + 1;
+      m[2] = 1*d[1];
+    }
+    if(t){
+      t = t[0].split(":");
+      m[3] = t[0]*1;
+      m[4] = t[1]*1;
+      m[5] = t[2]*1;
+    }
+    return this.solveFromDate(m);
   }
 
   solveFromDate(a){
     var d = {
       y: a[0],
-      m: a[1],
-      d: a[2],
+      m: a[1] || 0,
+      d: a[2] || 0,
       H: a[3] || 0,
       M: a[4] || 0,
       s: a[5] || 0,
       l: a[6] || 0
     };
-    var m = {};
-    m.MSD = this.getMSDFromDate(d);
-    m.j2000 = this.getj2000FromMSD(m.MSD);
-    m.earthDate = this.getEarthDateFromj2000(m.j2000);
-    m.dateObject = this.getDateFromMSD(m.MSD);
-    m.millis = Math.floor(m.MSD*86400000);
-    return m;
+    var m = this.getMSDFromDate(d);
+    return this.solveFromMSD(m);
+    // m.j2000 = this.getj2000FromMSD(m.MSD);
+    // m.earthDate = this.getEarthDateFromj2000(m.j2000);
+    // m.dateObject = this.getDateFromMSD(m.MSD);
+    // m.millis = Math.floor(m.MSD*86400000 - 11081343958887);
+    // return m;
   }
 
   formatDate(s){
@@ -215,7 +234,7 @@ class MarsDate {
     m.M = Math.floor((1440*d) % 60);
     m.s = Math.floor((86400*d) % 60);
     m.l = Math.floor((86400000*d) % 1000);
-    m.n = Math.floor(d) + 1;
+    m.n = Math.floor(d);
     for(m.y = 0; m.n>669; m.y++){
       if(this.isLeapYear(m.y)){
         m.n-=669;
@@ -233,7 +252,7 @@ class MarsDate {
     m.q = (m.q>3) ? 3 : m.q;
     m.m =  Math.floor(m.q*6 + (m.n-m.q*167)/28);
     m.m = (m.m>23) ? 23 : m.m;
-    m.d = m.n - m.q*167 - ((m.m%6)*28);
+    m.d = m.n - m.q*167 - ((m.m%6)*28) + 1;
     return this.createDateObjects(m);
   }
 
@@ -254,33 +273,22 @@ class MarsDate {
   }
 
   getMSDFromDate(x){
-    var m = x.d + (x.m*28) - Math.floor(x.m/6) - 94129 + ((x.l + 1000*(x.s + (60*x.M + (60* x.H))))/86400000);
+    var m = -1 + x.d + ((x.m-1)*28) - Math.floor((x.m-1)/6) + ((x.l + 1000*(x.s + (60*(x.M + (60 * x.H))))) /86400000);
+    console.log(m);
     for(var i = 0; i<x.y; i++){
-      if(isLeapYear(x.year)){
+      if(this.isLeapYear(i)){
         m+=669;
       } else {
         m+=668;
       }
     }
+    console.log(m);
     return m;
   }
 
   /*
     Date processing functions
   */
-
-  getArgumentsFromDateString(s){
-    var d = s.split(" ");
-    var t = d[4].split(":");
-    var a = [d[3],d[1],d[2],t[0],t[1],t[2],0];
-    for(var i=0; i<MarsDate.i18n.mon.length; i++){
-      if(a[1]===MarsDate.i18n.mon[i]){
-        a[1] = i;
-        break;
-      }
-    }
-    return a;
-  }
 
   pad(n, l) {
     var s = n.toString();
@@ -315,15 +323,16 @@ class MarsDate {
     m.dd = this.pad(m.d, 2);
     m.N = (m.d-1)%7;
     m.dddd = MarsDate.i18n.sols[m.N];
-    m.ddd = m.dddd.slice(4,7);
+    m.ddd = MarsDate.i18n.sol[m.N];
     m.yy = this.pad((m.y%100),2);
     m.yyy = m.y;
-    // m.yyyy = pad(m.y, 4);
+    m.yyyy = this.pad(m.y, 4);
     m.W = m.m*4 + Math.ceil(m.d/7);
     m.mm = this.pad(m.m,2);
     m.mmmm = MarsDate.i18n.months[m.m]
     m.mmm = MarsDate.i18n.mon[m.m]
     m.l = this.pad(m.l, 3);
+    console.log(m);
     return m;
   }
 
@@ -578,6 +587,7 @@ MarsDate.i18n = {
         offset: "+090946"
       }
     },
+    dateStringRegex: new RegExp(/\w{3}\s\w{3}\s\d*\s\d*/gi),
     toString: 'ddd mmm d yyy HH:MM:ss Z',
     toDateString: 'ddd mmm d yyy',
     toJSON: 'yyy-mm-ddXHH:MM:ss.lA|T',
