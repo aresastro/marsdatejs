@@ -1,5 +1,5 @@
 /*
- * Mars Date 0.0.3
+ * MarsDate.js 0.0.4
  * (c) 2016 Dean Little <aresastro.com>
  * MIT license
  *
@@ -54,40 +54,15 @@ class MarsDate {
     return this.formatDate(MarsDate.i18n.toMTCString);
   }
   setTimezone(a){
-    // int 12/-12
-    // String +1208
-    // String +120801
-    // String MTC
-    // String AMT
-    // String CUR
-    // String WOT
     this.json.Z = MarsDate.i18n.timezones[a];
     var p = (a[0]==="+") ? 1 : -1;
-    var i = (a[1]*10 + a[2])*3600000*p;
-    var mi = (i+this.millis)/86400000;
+    var i = (a[1]*10 + 1*a[2])*3600000*p;
+    var mi = (i+(1*this.millis))/86400000;
     var m = this.getDateFromMSD(mi);
     this.json = m;
     this.json.Z = MarsDate.i18n.timezones[a];
     this.string = this.formatDate(MarsDate.i18n.toString);
   }
-  //   a=int(a);
-  //   if(a<1){
-  //     var n = true;
-  //   }
-  //   if(a.length===4){
-
-  //   } else if(a.length===6){
-
-  //   }
-  //   var m = this.millis + 
-  //   var m = this.solveFromMSD(this.millis/86400000);
-  // }
-
-  /*
-
-    Translation Strings
-
-  */
 
   solveDate(t, a){
     var m = {};
@@ -174,10 +149,17 @@ class MarsDate {
     s = s.replace("T", a.T);
     s = s.replace("tt", a.tt);
     s = s.replace("t", a.t);
+
     //Replace years
     s = s.replace("yyyy", this.pad(a.y, 4));
     s = s.replace("yyy", a.yyy);
     s = s.replace("yy", a.yy);
+    
+    //Replace Seconds
+    s = s.replace("ss", a.ss);
+    s = s.replace("l", a.l);
+    s = s.replace("L", a.L);
+
     //Replace months
     s = s.replace("mmmm", a.mmmm);
     s = s.replace("mmm", a.mmm);
@@ -198,11 +180,6 @@ class MarsDate {
     //Replace Minutes
     s = s.replace("MM", a.MM);
 
-    //Replace Seconds
-    s = s.replace("ss", a.ss);
-    s = s.replace("l", a.l);
-    s = s.replace("L", a.L);
-
     //Replace Week
     s = s.replace("W", a.W);
 
@@ -213,19 +190,6 @@ class MarsDate {
         s = s.replace("X", matches[i]);
       }
     }
-    //Regex for finding groups of the same character
-    // var r = /(\w)\1*/g;
-    //Regex for removing encapsulated strings
-    // var r2 = /"(([^\\"]|\\"|\\(?!"))*)"/g;
-    // var s2 = s.replace(r2, '');
-    //Matches
-    // var m = s2.match(r);
-    
-    // for(var i=0; i<m.length; i++){
-    //   if(a[m[i]]){
-    //     s = s.replace(m[i], a[m[i]]);
-    //   }
-    // }
     return s;
   }
 
@@ -241,7 +205,7 @@ class MarsDate {
   }
 
   getMSDFromj2000(d){
-    return (d-4.5)/1.0274912517 + 44796.0 - 0.0009626 + 94129;
+    return (d-4.5)/(88775244.147/86400000) + 44796.0 - 0.0009626 + 94129;
   }
 
   getDateFromMSD(d){
@@ -286,7 +250,7 @@ class MarsDate {
   }
 
   getj2000FromMSD(d){
-    return (d - 94129 + 0.0009626 - 44796.0) * 1.0274912517 + 4.5;
+    return (d - 94129 + 0.0009626 - 44796.0) * (88775244.147/86400000) + 4.5;
   }
 
   getMSDFromDate(x){
