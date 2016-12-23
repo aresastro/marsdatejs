@@ -32,7 +32,6 @@ class MarsDate {
           t='marsdate';
         }
       }
-      console.log(t);
       return t;
     }
   }
@@ -85,7 +84,6 @@ class MarsDate {
         m = this.solveFromDateString(a[0]);
         break;
       case 'marsdate':
-        console.log(a);
         m = this.solveFromDate(a);
         break;
     }
@@ -274,7 +272,6 @@ class MarsDate {
 
   getMSDFromDate(x){
     var m = -1 + x.d + ((x.m-1)*28) - Math.floor((x.m-1)/6) + ((x.l + 1000*(x.s + (60*(x.M + (60 * x.H))))) /86400000);
-    console.log(m);
     for(var i = 0; i<x.y; i++){
       if(this.isLeapYear(i)){
         m+=669;
@@ -282,7 +279,6 @@ class MarsDate {
         m+=668;
       }
     }
-    console.log(m);
     return m;
   }
 
@@ -332,7 +328,6 @@ class MarsDate {
     m.mmmm = MarsDate.i18n.months[m.m]
     m.mmm = MarsDate.i18n.mon[m.m]
     m.l = this.pad(m.l, 3);
-    console.log(m);
     return m;
   }
 
