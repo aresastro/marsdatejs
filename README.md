@@ -39,7 +39,38 @@ var dateTimeFromString = "Jov Sag 12 154 12:34:50";
 
 ```
 
-### Formatting options
+After initialiing a MarsDate object, you can then do a variety of things with it:
+
+
+```js
+
+
+//Let's set a date first - In this case, Elon Musk's birthday.
+var d = new MarsDate(new Date(1971, 6, 28));
+
+
+//We can now export this date in a variety of formats:
+console.log(d);  //Mer Kar 25 192 14:23:45 AMT+0000 (AMT) 
+console.log(d*1); //48151066900
+console.log(a.toJSON()); //192-15-25T14:23:45.787A
+console.log(a.toString()); //Mer Kar 25 192 14:23:45 AMT+0000 (AMT)
+console.log(a.toDateString()); //Mer Kar 25 192
+console.log(a.toISOString()); //192-15-25T14:23:45.787A
+console.log(a.toMTCString()); //Mer, 25 Kar 192 14:23:45 AMT
+
+//We can set a timezone from "-1100" to "+1200".
+d.setTimezone("+1100");
+console.log(d); //Jov Kar 26 192 01:23:45 AMT+1100 (CET)
+//For a full list of timezones, see: http://www.aresastro.com/2016/03/ares-time-zone-system
+
+//We can also use a custom format like so:
+console.log(a.formatDate("yyy mm dd HH:MM:ss")); //192 15 25 14:23:45
+
+
+```
+
+
+### Date Formatting options
 
 Mask | Description
 ---- | -----------
