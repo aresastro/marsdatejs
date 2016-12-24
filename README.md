@@ -1,21 +1,23 @@
 # MarsDate.js
 A Javascript Date object for Mars timekeeping and Earth-Mars date/time conversion.
 
-## Modifications
-* Finished off .setTimezone() function.
+## Updates in 0.0.4
+* Completed setTimezone() function.
 * Implemented String input.
 * Added the placeholder `N` to get the ISO 8601 numeric representation of the sol of the week.
 * Now translation friendly.
-* Added minified version
+* Added minified version.
+* Better Documentation.
 
 ## Todo
 * Add `Date.prototype.marsDate` to allow easy conversion between `Date` and `MarsDate` objects.
-* Finish documentation
 
 ## Usage
 
-The MarsDate object can be used in a similar fashion to the standard Javascript `Date` object. You can initialise it:
+The MarsDate object can be used in a similar fashion to the standard Javascript `Date` object. 
 
+### Initialisation
+You may initialise a `MarsDate` object in one of the following ways:
 ```js
 
 //As undefined which will assume the current date and time in MTC.
@@ -39,15 +41,13 @@ var dateTimeFromString = "Jov Sag 12 154 12:34:50";
 
 ```
 
+###Usage
 After initialiing a MarsDate object, you can then do a variety of things with it:
-
 
 ```js
 
-
 //Let's set a date first - In this case, Elon Musk's birthday.
 var d = new MarsDate(new Date(1971, 6, 28));
-
 
 //We can now export this date in a variety of formats:
 console.log(d);  //Mer Kar 25 192 14:23:45 AMT+0000 (AMT) 
@@ -58,19 +58,29 @@ console.log(a.toDateString()); //Mer Kar 25 192
 console.log(a.toISOString()); //192-15-25T14:23:45.787A
 console.log(a.toMTCString()); //Mer, 25 Kar 192 14:23:45 AMT
 
-//We can set a timezone from "-1100" to "+1200".
+```
+
+###Timezones
+You can set your `MarsDate` object to one of many timezones between "-1100" to "+1200". For a full list of timezones,  see: http://www.aresastro.com/2016/03/ares-time-zone-system
+
+```js
+
 d.setTimezone("+1100");
 console.log(d); //Jov Kar 26 192 01:23:45 AMT+1100 (CET)
-//For a full list of timezones, see: http://www.aresastro.com/2016/03/ares-time-zone-system
+
+```
+
+### Custom Formatting
+There are also a variety of options for custom date formatting. 
+
+```js
 
 //We can also use a custom format like so:
 console.log(a.formatDate("yyy mm dd HH:MM:ss")); //192 15 25 14:23:45
 
-
 ```
 
-
-### Date Formatting options
+Custom date formats may consist of the following elements:
 
 Mask | Description
 ---- | -----------
