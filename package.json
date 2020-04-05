@@ -1,0 +1,53 @@
+{
+  "_from": "marsdate@0.0.1",
+  "_id": "marsdate@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha1-PX50hEtdQ6nzCR4hkOZTdlrof4E=",
+  "_location": "/marsdate",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "marsdate@0.0.1",
+    "name": "marsdate",
+    "escapedName": "marsdate",
+    "rawSpec": "0.0.1",
+    "saveSpec": null,
+    "fetchSpec": "0.0.1"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/marsdate/-/marsdate-0.0.1.tgz",
+  "_shasum": "3d7e74844b5d43a9f3091e2190e653765ae87f81",
+  "_spec": "marsdate@0.0.1",
+  "_where": "/Users/daniele/Desktop/calendar",
+  "author": {
+    "name": "Ares Astro",
+    "email": "dean@aresastro.com",
+    "url": "http://aresastro.com"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A library for Mars timekeeping",
+  "directories": {
+    "example": "example"
+  },
+  "keywords": [
+    "mars",
+    "space",
+    "martian",
+    "time",
+    "timekeeping",
+    "calendar",
+    "darian"
+  ],
+  "license": "MIT",
+  "main": "marsdate.js",
+  "name": "marsdate",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.1"
+}
