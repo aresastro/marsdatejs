@@ -588,3 +588,5 @@ MarsDate.i18n = {
     toISOString: 'yyy-mm-ddXHH:MM:ss.lA|T',
     toMTCString: 'ddd, dd mmm yyy HH:MM:ss X|AMT'
   };
+
+module.exports = MarsDate;
