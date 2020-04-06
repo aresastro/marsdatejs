@@ -41,7 +41,7 @@ var dateTimeFromString = "Jov Sag 12 154 12:34:50";
 
 ```
 
-###Usage
+### Usage
 After initialiing a MarsDate object, you can then do a variety of things with it:
 
 ```js
@@ -60,7 +60,7 @@ console.log(a.toMTCString()); //Mer, 25 Kar 192 14:23:45 AMT
 
 ```
 
-###Timezones
+### Timezones
 You can set your `MarsDate` object to one of many timezones between "-1100" to "+1200". For a full list of timezones,  see: http://www.aresastro.com/2016/03/ares-time-zone-system
 
 ```js
