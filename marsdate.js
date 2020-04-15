@@ -265,7 +265,7 @@ class MarsDate {
     return (d - 94129 + 0.0009626 - 44796.0) * (88775244.147/86400000) + 4.5;
   }
 
-  getMSDFromDate(x){ //fix
+  getMSDFromDate(x){
     var m = -1 + x.d + ((x.m-1)*28) - Math.floor((x.m-1)/6) + ((x.l + 1000*(x.s + (60*(x.M + (60 * x.H))))) /86400000);
     for(var i = 0; i<x.y; i++){
       if(this.isLeapYear(i)){
