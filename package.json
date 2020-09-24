@@ -47,6 +47,10 @@
   "license": "MIT",
   "main": "marsdate.js",
   "name": "marsdate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danieledep/marsdatejs.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
