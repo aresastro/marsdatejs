@@ -28,6 +28,7 @@
     "email": "dean@aresastro.com",
     "url": "http://aresastro.com"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "bundleDependencies": false,
   "deprecated": false,
   "description": "A library for Mars timekeeping",
