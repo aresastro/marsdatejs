@@ -42,7 +42,7 @@ class MarsDate {
     return this.formatDate(MarsDate.i18n.toString);
   }
   toDateString(){
-    return this.formatDate(MarsDate.i18n.toDateString);  
+    return this.formatDate(MarsDate.i18n.toDateString);
   }
   toJSON(){
     return this.formatDate(MarsDate.i18n.toJSON);
@@ -143,11 +143,6 @@ class MarsDate {
     };
     var m = this.getMSDFromDate(d);
     return this.solveFromMSD(m);
-    // m.j2000 = this.getj2000FromMSD(m.MSD);
-    // m.earthDate = this.getEarthDateFromj2000(m.j2000);
-    // m.dateObject = this.getDateFromMSD(m.MSD);
-    // m.millis = Math.floor(m.MSD*86400000 - 11081343958887);
-    // return m;
   }
 
   formatDate(s){
@@ -171,7 +166,7 @@ class MarsDate {
     s = s.replace("yyyy", this.pad(a.y, 4));
     s = s.replace("yyy", a.yyy);
     s = s.replace("yy", a.yy);
-    
+
     //Replace Seconds
     s = s.replace("ss", a.ss);
     s = s.replace("l", a.l);
@@ -187,7 +182,7 @@ class MarsDate {
     s = s.replace("dd", a.dd);
     s = s.replace("d", a.d);
     s = s.replace("N", a.N);
-    
+
     //Replace Hours
     s = s.replace("HH", a.HH);
     s = s.replace("H", a.H);
@@ -263,7 +258,7 @@ class MarsDate {
   */
 
   getEarthDateFromj2000(d){
-    return new Date((d - 67.184/86400 + 2451545) * 86400000 - 2440587.5);
+    return new Date((d - 67.184/86400 + 2451545 - 2440587.5) * 86400000);
   }
 
   getj2000FromMSD(d){
@@ -271,7 +266,7 @@ class MarsDate {
   }
 
   getMSDFromDate(x){
-    var m = -1 + x.d + ((x.m-1)*28) - Math.floor((x.m-1)/6) + ((x.l + 1000*(x.s + (60*(x.M + (60 * x.H))))) /86400000);
+    var m = x.d + ((x.m)*28) - Math.floor((x.m)/6) + ((x.l + 1000*(x.s + (60*(x.M + (60 * x.H))))) /86400000);
     for(var i = 0; i<x.y; i++){
       if(this.isLeapYear(i)){
         m+=669;
@@ -588,3 +583,5 @@ MarsDate.i18n = {
     toISOString: 'yyy-mm-ddXHH:MM:ss.lA|T',
     toMTCString: 'ddd, dd mmm yyy HH:MM:ss X|AMT'
   };
+
+module.exports = MarsDate;
